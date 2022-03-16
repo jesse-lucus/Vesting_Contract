@@ -8,7 +8,7 @@ const {
 contract('Vesting', (accounts) => {
     before(async () => {
     })
-    it("When try to release before TGE", async () => {
+    it("Fail to release before TGE", async () => {
         let vestingContract = await Vesting.deployed()
 
         const now_timestamp = await vestingContract.getTimeStamp()
@@ -17,7 +17,7 @@ contract('Vesting', (accounts) => {
         let tge_timestamp = await vestingContract.getTGE()
         const tge_date = new Date(tge_timestamp * 1000)
         console.log("TGE", tge_date)
-        
+
         await expectRevert(
             vestingContract.release(),
             "TGE must happen before any claiming is possible."
@@ -25,7 +25,7 @@ contract('Vesting', (accounts) => {
         // expectRevert(await vestingContract.release())
         console.log("Fail to Release")
     })
-    it("Can be released", async () => {
+    it("Can be released after TGE", async () => {
         let vestingContract = await Vesting.deployed()
         //Increase EVM BlockTimeStamp One Year
         const Duration = duration.years(1)

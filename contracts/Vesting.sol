@@ -374,7 +374,7 @@ contract Vesting is Context {
                 uint256 _amount = vestingAmounts[index][i];
                 VestingDetails memory vestingDetails = VestingDetails(
                     _amount,
-                    10,
+                    0,
                     false,
                     true
                 );

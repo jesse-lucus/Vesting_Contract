@@ -8,7 +8,7 @@ const fastCsv = require("fast-csv");
  */
 const path = require('path')
 
-const verbose = false
+const verbose = true
 
 const getImportsDirectoryPath = () => {
     let currentPath = __dirname
@@ -47,6 +47,8 @@ module.exports = function (deployer) {
         const vestingScheduleLiquidity = []
         const vestingScheduleMarketing = []
 
+        const PERCENTAGE_FACTOR = 100
+
         const segmentNames = [];
         const data = [];
 
@@ -73,42 +75,42 @@ module.exports = function (deployer) {
                 else if(element[0] == "Seed Round - Community")
                 {
                     element.forEach(cell => {
-                        if(cell != "Seed Round - Community") vestingScheduleSeedRoundCommunity.push(isNaN(parseInt(cell)) ? 0 : parseInt(cell));
+                        if(cell != "Seed Round - Community") vestingScheduleSeedRoundCommunity.push(isNaN(parseInt(cell)) ? 0 : parseFloat(cell) * PERCENTAGE_FACTOR);
                     });
                     console.log("Seed Round - Community", vestingScheduleSeedRoundCommunity);
                 }
                 else if(element[0] == "Seed Round - Strategic")
                 {
                     element.forEach(cell => {
-                        if(cell != "Seed Round - Strategic") vestingScheduleSeedRoundStrategic.push(isNaN(parseInt(cell)) ? 0 : parseInt(cell));
+                        if(cell != "Seed Round - Strategic") vestingScheduleSeedRoundStrategic.push(isNaN(parseInt(cell)) ? 0 : parseFloat(cell) * PERCENTAGE_FACTOR);
                     });
                     console.log("Seed Round - Strategic", vestingScheduleSeedRoundStrategic);
                 }
                 else if(element[0] == "Private Round - Strategic")
                 {
                     element.forEach(cell => {
-                        if(cell != "Private Round - Strategic") vestingSchedulePrivateRoundStrategic.push(isNaN(parseInt(cell)) ? 0 : parseInt(cell));
+                        if(cell != "Private Round - Strategic") vestingSchedulePrivateRoundStrategic.push(isNaN(parseInt(cell)) ? 0 : parseFloat(cell) * PERCENTAGE_FACTOR);
                     });
                     console.log("Private Round - Strategic", vestingSchedulePrivateRoundStrategic);
                 }
                 else if(element[0] == "Public Round ")
                 {
                     element.forEach(cell => {
-                        if(cell != "Public Round ") vestingSchedulePublicRound.push(isNaN(parseInt(cell)) ? 0 : parseInt(cell));
+                        if(cell != "Public Round ") vestingSchedulePublicRound.push(isNaN(parseInt(cell)) ? 0 : parseFloat(cell) * PERCENTAGE_FACTOR);
                     });
                     console.log("Public Round ", vestingSchedulePublicRound);
                 }
                 else if(element[0] == "FOMO Round - Unlocked")
                 {
                     element.forEach(cell => {
-                        if(cell != "FOMO Round - Unlocked") vestingScheduleFomoRound.push(isNaN(parseInt(cell)) ? 0 : parseInt(cell));
+                        if(cell != "FOMO Round - Unlocked") vestingScheduleFomoRound.push(isNaN(parseInt(cell)) ? 0 : parseFloat(cell) * PERCENTAGE_FACTOR);
                     });
                     console.log("FOMO Round - Unlocked", vestingScheduleFomoRound);
                 }
                 else if(element[0] == "Liquidity")
                 {
                     element.forEach(cell => {
-                        if(cell != "Liquidity") vestingScheduleLiquidity.push(isNaN(parseInt(cell)) ? 0 : parseInt(cell));
+                        if(cell != "Liquidity") vestingScheduleLiquidity.push(isNaN(parseInt(cell)) ? 0 : parseFloat(cell) * PERCENTAGE_FACTOR);
                     });
                     console.log("Liquidity", vestingScheduleLiquidity);
                 }

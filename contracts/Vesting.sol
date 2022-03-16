@@ -336,7 +336,7 @@ contract Vesting is Context {
 
                 total += vestingSchedules[i][j];
             }
-            require(total == 100);
+            require(total == 100 * PERCENTAGE_FACTOR);
         }
 
         _token = IERC20(tokenContractAddress);

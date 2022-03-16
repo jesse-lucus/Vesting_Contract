@@ -118,8 +118,9 @@ module.exports = function (deployer) {
         });
 
         const signers = []
-        const tge = Date.parse('2022-04-01T00:00:00Z');
-        console.log("tge: ", tge / 1000);
+        // const tge = Date.parse('2022-08-01T00:00:00Z');
+        const tge = Math.floor(Date.now() / 1000) + 86400
+        console.log("tge: ", tge);
         const vestingPeriod = 48
 
         deployer.then(async () => {
@@ -133,7 +134,7 @@ module.exports = function (deployer) {
 
             // await web3.eth.accounts.wallet.create(4) // create 4 accounts
             let accounts = await web3.eth.getAccounts()
-            console.log(accounts)
+            // console.log(accounts)
             firstAccount = accounts[0]
             secondAccount = accounts[1]
             thirdAccount = accounts[2]
@@ -155,7 +156,7 @@ module.exports = function (deployer) {
                 bonuzTokenContract.address,
                 signers,
                 firstAccount,
-                tge / 1000,
+                tge,
                 vestingPeriod,
                 //segmentsCount
                 1,

@@ -1,19 +1,45 @@
+const {duration} = require('truffle-test-helpers') 
 const Vesting = artifacts.require('Vesting')
+const { timetravel } = require('./helpers/timeTravel')
+const {
+    expectRevert,
+  } = require("@openzeppelin/test-helpers");
 
 contract('Vesting', (accounts) => {
     before(async () => {
     })
-    it("Release Token", async () => {
-        // let vestingContract = await Vesting.deployed()
-        const contract_address = '0xbE618DD76dE596df6b3129F4081d76666B413b9C'
-        let vestingContract = await Vesting.at(contract_address);
+    it("When try to release before TGE", async () => {
+        let vestingContract = await Vesting.deployed()
 
-        console.log(await vestingContract.getAllSegmentNames())
-        let blockTime = await vestingContract.getTimeStamp()
-        console.log("Block TimeStamp", parseInt(blockTime))
-        let tge = await vestingContract.getTGE()
-        console.log("TGE", parseInt(tge))
+        const now_timestamp = await vestingContract.getTimeStamp()
+        const now_date = new Date(now_timestamp * 1000);
+        console.log("Time NOW", now_date)
+        let tge_timestamp = await vestingContract.getTGE()
+        const tge_date = new Date(tge_timestamp * 1000)
+        console.log("TGE", tge_date)
+        
+        await expectRevert(
+            vestingContract.release(),
+            "TGE must happen before any claiming is possible."
+          );
+        // expectRevert(await vestingContract.release())
+        console.log("Fail to Release")
+    })
+    it("Can be released", async () => {
+        let vestingContract = await Vesting.deployed()
+        //Increase EVM BlockTimeStamp One Year
+        const Duration = duration.years(1)
+        timetravel(Duration)
+        
+        const now_timestamp = await vestingContract.getTimeStamp()
+        const now_date = new Date(now_timestamp * 1000);
+        console.log("Time NOW", now_date)
+        let tge_timestamp = await vestingContract.getTGE()
+        const tge_date = new Date(tge_timestamp * 1000)
+        console.log("TGE", tge_date)
+
         await vestingContract.release()
         console.log("Successfully Released")
     })
+    
 })
